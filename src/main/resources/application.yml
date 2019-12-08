@@ -1,0 +1,67 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  main:
+    banner-mode: console
+
+  application:
+    name: demo-webapp
+
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: false
+        format_sql: false
+        order_inserts: true
+        order_updates: true
+        generate_statistics: true
+        jdbc.batch_size: 100
+        cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+
+  datasource:
+    initialize: false
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_SCHEMA:demo_database}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:password}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: false
+      connection-test-query: "SELECT 1"
+
+  mvc.favicon.enabled: false
+
+# It is important that this filter order remain un-changed, or else requests w/ JWT
+# tokens will be seen as un-authenticated sessions and rejected before the oauth2 filter
+# gets a chance to approve the request.
+security.oauth2.resource.filter-order: 3
+
+ashurex:
+  security:
+    jwt.signing-key: ${JWT_SIGNING_KEY:KCuB8D8x47gAuhgV}
+
+logging:
+  level:
+    ROOT: info
+    jdbc: warn
+    com.ashurex: trace
+    com.zaxxer.hikari.pool.HikariPool: warn
+    org.hibernate: warn
+    org.hibernate.engine.internal: error
+    org.hibernate.SQL: warn
+    org.flywaydb: warn
+    org.springframework: warn
+    org.springframework.boot.web.filter: info
+    org.springframework.boot.actuate: warn
+    org.apache: info

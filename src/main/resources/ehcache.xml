@@ -1,0 +1,37 @@
+<?xml version="1.0"
+    encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://www.ehcache.org/ehcache.xsd"
+         updateCheck="false"
+         monitoring="autodetect"
+         dynamicConfig="true"
+         maxBytesLocalDisk="1G">
+
+    <diskStore path="/tmp/demo-api/.cache"/>
+
+    <defaultCache eternal="false"
+                  timeToIdleSeconds="1200"
+                  timeToLiveSeconds="1200"
+                  statistics="false">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+
+    <cache name="partyHierarchy"
+           timeToLiveSeconds="300"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LRU"
+           maxElementsInMemory="100"/>
+
+    <cache name="users"
+           timeToLiveSeconds="6000"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LRU"
+           maxElementsInMemory="100"/>
+
+    <cache name="userPermissions"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="90"
+           memoryStoreEvictionPolicy="LRU"
+           overflowToDisk="true"
+           maxBytesLocalHeap="50M"/>
+</ehcache>
